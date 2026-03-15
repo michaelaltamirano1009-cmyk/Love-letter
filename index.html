@@ -6,16 +6,17 @@
 
 <style>
 
-body{
-margin:0;
-font-family:Georgia, serif;
-background:linear-gradient(135deg,#ff9a9e,#fad0c4);
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-overflow:hidden;
+body {
+    margin: 0;
+    font-family: Georgia, serif;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    min-height: 100vh;   /* allow page to grow */
+    display: flex;
+    flex-direction: column; /* stack envelope on top, letter below */
+    align-items: center;
+    overflow-x: hidden;  /* allow vertical scrolling */
 }
+
 
 /* envelope */
 .envelope {
@@ -73,6 +74,7 @@ animation: fly 2.5s forwards ease;
 /* letter */
 
 .letter{
+margin-top: 40px;
 position:absolute;
 width:600px;
 max-width:90%;
