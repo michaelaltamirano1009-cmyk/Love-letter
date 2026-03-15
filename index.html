@@ -18,6 +18,14 @@ overflow:hidden;
 }
 
 /* envelope */
+  .envelope {
+    pointer-events: auto;
+}
+
+.envelope:before {
+    pointer-events: none;
+}
+
 
 .envelope{
 width:220px;
@@ -198,43 +206,47 @@ Always yours ❤️
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", () => {
 
-/* envelope click */
+    const envelope = document.getElementById("envelope");
+    const letter = document.getElementById("letter");
+    const flightPath = document.getElementById("flightPath");
+    const plane = document.getElementById("plane");
 
-const envelope = document.getElementById("envelope")
-const letter = document.getElementById("letter")
+    envelope.addEventListener("click", () => {
+        envelope.classList.add("open");
 
-envelope.onclick = () => {
-envelope.classList.add("open")
+        setTimeout(() => {
+            letter.classList.add("show");
 
-setTimeout(()=>{
-letter.classList.add("show")
+            // animate NYC → Guyana line
+            flightPath.style.strokeDashoffset = "0";
 
-document.getElementById("flightPath").style.strokeDashoffset = "0"
+            // animate plane
+            plane.classList.add("planeMove");
 
-document.getElementById("plane").classList.add("planeMove")
+        }, 600);
+    });
 
-},600)
-}
+    /* floating hearts */
+    function createHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+        heart.style.animationDuration = (Math.random() * 5 + 5) + "s";
 
-/* floating hearts */
+        document.body.appendChild(heart);
 
-function createHeart(){
-const heart=document.createElement("div")
-heart.classList.add("heart")
-heart.innerHTML="❤"
-heart.style.left=Math.random()*100+"vw"
-heart.style.fontSize=(Math.random()*20+10)+"px"
-heart.style.animationDuration=(Math.random()*5+5)+"s"
+        setTimeout(() => heart.remove(), 8000);
+    }
 
-document.body.appendChild(heart)
+    setInterval(createHeart, 400);
 
-setTimeout(()=>heart.remove(),8000)
-}
-
-setInterval(createHeart,400)
-
+});
 </script>
+
 
 </body>
 </html>
