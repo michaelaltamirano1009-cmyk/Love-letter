@@ -1,19 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <title>For You ❤️</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
     /* Page */
+    :root{
+      --pink:#ff6b81;
+      --paper:#fffdf9;
+      --accent:#d6336c;
+    }
+
     body{
       margin:0;
       font-family: Georgia, serif;
       background: linear-gradient(135deg,#ff9a9e,#fad0c4);
       min-height:100vh;
       overflow-x:hidden;
-      padding:20px;
+      padding:28px 20px;
       color:#333;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* Envelope container (keeps envelope centered and slightly raised) */
+    .envelope-wrap{
+      display:flex;
+      justify-content:center;
+      margin-top:18px;
     }
 
     /* envelope */
@@ -23,40 +38,79 @@
       background:#fff;
       position:relative;
       cursor:pointer;
-      box-shadow:0 15px 35px rgba(0,0,0,0.2);
+      box-shadow:
+        0 18px 40px rgba(0,0,0,0.18),
+        inset 0 -6px 12px rgba(0,0,0,0.03);
       z-index:10;
       display:flex;
       justify-content:center;
       align-items:center;
-      margin:20px auto 0;
-      border-radius:6px;
+      border-radius:10px;
       user-select:none;
+      transform-origin:center;
+      transition:transform 400ms ease;
+      will-change:transform;
     }
 
-    .envelope:before{
+    /* slight hover lift */
+    .envelope:hover{ transform:translateY(-6px) scale(1.01); }
+
+    /* flap as a centered triangle using clip-path for consistent shape */
+    .envelope::before{
       content:"";
       position:absolute;
       top:0;
-      left:0;
-      width:100%;
-      height:70px;
-      transform-origin:50% 0;
+      left:50%;
+      transform:translateX(-50%) translateZ(0);
+      width:86%;
+      height:64px;
+      background:var(--pink);
+      border-top-left-radius:8px;
+      border-top-right-radius:8px;
+      clip-path: polygon(0 100%, 50% 0, 100% 100%);
+      transform-origin:50% 0%;
+      transition: transform 700ms cubic-bezier(.2,.9,.2,1);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+      pointer-events:none;
       backface-visibility:hidden;
-      border-left:110px solid transparent;
-      border-right:110px solid transparent;
-      border-top:70px solid #ff6b81;
-      transition:transform 700ms cubic-bezier(.2,.9,.2,1);
+      transform-style:preserve-3d;
+    }
+
+    /* open flap rotates back (like opening toward viewer) */
+    .envelope.open::before{
+      transform: translateX(-50%) rotateX(180deg);
+    }
+
+    /* small decorative stripe on envelope body */
+    .envelope::after{
+      content:"";
+      position:absolute;
+      bottom:12px;
+      left:12px;
+      right:12px;
+      height:10px;
+      background:linear-gradient(90deg, rgba(214,51,108,0.06), rgba(214,51,108,0.02));
+      border-radius:6px;
       pointer-events:none;
     }
 
-    .envelope.open:before{
-      transform:rotateX(180deg);
-    }
-
+    /* hide envelope after open */
     .envelope.hide{
       opacity:0;
       pointer-events:none;
-      transition:opacity 600ms ease;
+      transition:opacity 600ms ease, transform 600ms ease;
+      transform:translateY(-20px) scale(0.98);
+    }
+
+    /* envelope label (center text) */
+    .envelope .label{
+      position:relative;
+      z-index:2;
+      font-weight:600;
+      color:var(--accent);
+      font-size:16px;
+      letter-spacing:0.2px;
+      text-shadow:0 1px 0 rgba(255,255,255,0.6);
     }
 
     /* letter */
@@ -64,10 +118,10 @@
       position:relative;
       width:600px;
       max-width:90%;
-      background:#fffdf9;
+      background:var(--paper);
       padding:40px;
       border-radius:10px;
-      box-shadow:0 20px 40px rgba(0,0,0,0.3);
+      box-shadow:0 20px 40px rgba(0,0,0,0.28);
       opacity:0;
       transform:translateY(40px);
       transition:all 900ms ease;
@@ -80,15 +134,15 @@
     }
 
     /* text */
-    .title{ text-align:center; font-size:30px; color:#d6336c; margin-bottom:15px; }
+    .title{ text-align:center; font-size:30px; color:var(--accent); margin-bottom:15px; }
     .map{ text-align:center; color:#777; margin-bottom:30px; }
     p{ font-size:18px; line-height:1.6; color:#333; margin:14px 0; }
-    .signature{ margin-top:30px; text-align:right; font-style:italic; color:#d6336c; }
+    .signature{ margin-top:30px; text-align:right; font-style:italic; color:var(--accent); }
 
     /* svg tweaks */
     svg { display:block; margin:12px auto 0; max-width:100%; height:auto; }
     #flightPath { stroke-linecap:round; transition:stroke-dashoffset 1200ms ease-out; }
-    #plane { font-size:18px; pointer-events:none; transform-origin:center; }
+    #plane { font-size:18px; pointer-events:none; }
 
     /* floating hearts */
     .heart{
@@ -99,29 +153,33 @@
       pointer-events:none;
       will-change:transform,opacity;
       animation:float 8s linear infinite;
-      text-shadow:0 2px 6px rgba(0,0,0,0.15);
+      text-shadow:0 2px 6px rgba(0,0,0,0.12);
     }
     @keyframes float{
       0%{ transform:translateY(0) scale(0.9); opacity:0; }
       10%{ opacity:1; }
-      50%{ opacity:1; transform:translateY(-45vh) scale(1.1); }
+      50%{ opacity:1; transform:translateY(-45vh) scale(1.05); }
       100%{ transform:translateY(-110vh) scale(0.9); opacity:0; }
     }
 
-    /* small responsive tweaks */
+    /* responsive */
     @media (max-width:520px){
       .title{ font-size:22px; }
       p{ font-size:16px; }
-      .envelope{ width:180px; height:120px; }
+      .envelope{ width:180px; height:120px; border-radius:8px; }
+      .envelope::before{ height:56px; width:88%; }
     }
   </style>
 </head>
 <body>
 
-  <div class="envelope" id="envelope" aria-label="Open letter" role="button">Click Me 💌</div>
+  <div class="envelope-wrap">
+    <div class="envelope" id="envelope" role="button" aria-label="Open letter">
+      <div class="label">Click Me 💌</div>
+    </div>
+  </div>
 
   <div class="letter" id="letter" aria-hidden="true">
-
     <div class="title">To My Dearest Safrana ❤️</div>
 
     <div class="map">
@@ -152,7 +210,7 @@
     </div>
 
     <p>
-      It’s been six months of us officially being together, and honestly, it feels longer in the best way. Maybe it’s because we’re long distance, or maybe it’s because we’ve learned so much about each other and grown so close that it feels like we’ve known each other far longer than that. Either way, these six months have meant so much to me.
+      It’s been six months of us officially being together, and honestly, it feels longer in the best way. Maybe it’s because we’re long distance, or maybe it’s because we’ve learned so much about each other and grown so close that it feels like we’ve known each other longer than that. Either way, these six months have meant so much to me.
     </p>
 
     <p>
@@ -182,7 +240,6 @@
     <div class="signature">
       Always yours Michael (Stinky)❤️
     </div>
-
   </div>
 
   <script>
@@ -194,16 +251,14 @@
 
       // Prepare path for animation
       const pathLength = flightPath.getTotalLength();
-      // ensure dasharray is at least the path length for smooth reveal
       flightPath.style.strokeDasharray = pathLength;
       flightPath.style.strokeDashoffset = pathLength;
 
-      // Click handler (single, clean)
       envelope.addEventListener('click', () => {
         // open flap
         envelope.classList.add('open');
 
-        // hide envelope shortly after flap opens so user sees the animation
+        // hide envelope shortly after flap opens
         setTimeout(() => envelope.classList.add('hide'), 420);
 
         // show letter after flap animation
@@ -214,29 +269,22 @@
           // reveal the flight path
           flightPath.style.strokeDashoffset = '0';
 
-          // animate plane along the path using requestAnimationFrame
-          const duration = 2000; // ms
+          // animate plane along the path
+          const duration = 2000;
           const start = performance.now();
 
           function animatePlane(now) {
             const elapsed = now - start;
-            const t = Math.min(elapsed / duration, 1); // 0..1
+            const t = Math.min(elapsed / duration, 1);
             const point = flightPath.getPointAtLength(t * pathLength);
-
-            // position the plane text element (adjust y to center visually)
             plane.setAttribute('x', point.x);
             plane.setAttribute('y', point.y - 6);
-
-            // rotate slightly based on path slope for a nicer effect
-            if (t < 1) {
-              requestAnimationFrame(animatePlane);
-            }
+            if (t < 1) requestAnimationFrame(animatePlane);
           }
           requestAnimationFrame(animatePlane);
 
           // scroll to the letter smoothly
           window.scrollTo({ top: letter.offsetTop - 20, behavior: 'smooth' });
-
         }, 700);
       });
 
@@ -245,28 +293,17 @@
         const heart = document.createElement('div');
         heart.className = 'heart';
         heart.textContent = '❤';
-        // random horizontal start
-        const left = Math.random() * 100;
-        heart.style.left = left + 'vw';
-        // random size
+        heart.style.left = (Math.random() * 90 + 5) + 'vw';
         heart.style.fontSize = (Math.random() * 18 + 10) + 'px';
-        // random animation duration and delay to vary motion
         const dur = (Math.random() * 6 + 6).toFixed(2);
         const delay = (Math.random() * 2).toFixed(2);
         heart.style.animationDuration = dur + 's';
         heart.style.animationDelay = delay + 's';
         document.body.appendChild(heart);
-
-        // remove after animation completes (give a little buffer)
-        setTimeout(() => {
-          heart.remove();
-        }, (parseFloat(dur) + parseFloat(delay) + 0.5) * 1000);
+        setTimeout(() => heart.remove(), (parseFloat(dur) + parseFloat(delay) + 0.5) * 1000);
       }
-
-      // create hearts periodically
       setInterval(createHeart, 420);
     });
   </script>
-
 </body>
 </html>
