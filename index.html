@@ -18,7 +18,7 @@ overflow:hidden;
 }
 
 /* envelope */
-  .envelope {
+.envelope {
     pointer-events: auto;
 }
 
@@ -26,35 +26,35 @@ overflow:hidden;
     pointer-events: none;
 }
 
-
-.envelope{
-width:220px;
-height:140px;
-background:#fff;
-position:relative;
-cursor:pointer;
-box-shadow:0 15px 35px rgba(0,0,0,0.2);
-z-index: 10;
-display: flex;
-justify-content: center;
-align-items: center;
+.envelope {
+    width: 220px;
+    height: 140px;
+    background: #fff;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.envelope:before{
-content:"";
-position:absolute;
-top:0;
-left:0;
-border-left:110px solid transparent;
-border-right:110px solid transparent;
-border-top:70px solid #ff6b81;
-transform-origin:top;
-transition:transform 1s;
+.envelope:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-left: 110px solid transparent;
+    border-right: 110px solid transparent;
+    border-top: 70px solid #ff6b81;
+    transform-origin: top;
+    transition: transform 1s;
 }
 
-.envelope.open:before{
-transform:rotateX(180deg);
+.envelope.open:before {
+    transform: rotateX(180deg);
 }
+
 
 #flightPath{
 transition: stroke-dashoffset 2.5s ease;
