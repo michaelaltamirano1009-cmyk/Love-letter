@@ -44,6 +44,20 @@ transition:transform 1s;
 transform:rotateX(180deg);
 }
 
+#flightPath{
+transition: stroke-dashoffset 2.5s ease;
+}
+
+.planeMove{
+animation: fly 2.5s forwards ease;
+}
+
+@keyframes fly{
+0%{ transform: translate(0px,0px); }
+50%{ transform: translate(100px,-40px); }
+100%{ transform: translate(200px,80px); }
+}
+
 /* letter */
 
 .letter{
@@ -119,6 +133,30 @@ to{transform:translateY(-10vh);opacity:0;}
 NYC → Guyana ✈️  
 <br>
 Miles apart, but always connected
+
+<svg width="320" height="160" viewBox="0 0 320 160">
+
+<!-- NYC point -->
+<circle cx="60" cy="40" r="5" fill="#d6336c"/>
+
+<!-- Guyana point -->
+<circle cx="260" cy="120" r="5" fill="#d6336c"/>
+
+<!-- travel path -->
+<path id="flightPath"
+d="M60 40 Q160 10 260 120"
+stroke="#d6336c"
+stroke-width="3"
+fill="none"
+stroke-dasharray="400"
+stroke-dashoffset="400"
+/>
+
+<!-- airplane -->
+<text id="plane" x="60" y="40" font-size="16">✈️</text>
+
+</svg>
+
 </div>
 
 <p>
@@ -164,8 +202,14 @@ const letter = document.getElementById("letter")
 
 envelope.onclick = () => {
 envelope.classList.add("open")
+
 setTimeout(()=>{
 letter.classList.add("show")
+
+document.getElementById("flightPath").style.strokeDashoffset = "0"
+
+document.getElementById("plane").classList.add("planeMove")
+
 },600)
 }
 
