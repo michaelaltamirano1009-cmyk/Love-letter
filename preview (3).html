@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Georgia, serif;
+background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+}
+
+/* envelope */
+
+.envelope{
+width:220px;
+height:140px;
+background:#fff;
+position:relative;
+cursor:pointer;
+box-shadow:0 15px 35px rgba(0,0,0,0.2);
+}
+
+.envelope:before{
+content:"";
+position:absolute;
+top:0;
+left:0;
+border-left:110px solid transparent;
+border-right:110px solid transparent;
+border-top:70px solid #ff6b81;
+transform-origin:top;
+transition:transform 1s;
+}
+
+.envelope.open:before{
+transform:rotateX(180deg);
+}
+
+/* letter */
+
+.letter{
+position:absolute;
+width:600px;
+max-width:90%;
+background:#fffdf9;
+padding:40px;
+border-radius:10px;
+box-shadow:0 20px 40px rgba(0,0,0,0.3);
+opacity:0;
+transform:translateY(40px);
+transition:all 1s ease;
+}
+
+.letter.show{
+opacity:1;
+transform:translateY(0);
+}
+
+.title{
+text-align:center;
+font-size:30px;
+color:#d6336c;
+margin-bottom:15px;
+}
+
+.map{
+text-align:center;
+color:#777;
+margin-bottom:30px;
+}
+
+p{
+font-size:18px;
+line-height:1.6;
+color:#333;
+}
+
+.signature{
+margin-top:30px;
+text-align:right;
+font-style:italic;
+color:#d6336c;
+}
+
+/* hearts */
+
+.heart{
+position:absolute;
+color:yellow;
+animation:float 8s linear infinite;
+}
+
+@keyframes float{
+from{transform:translateY(100vh);opacity:0;}
+50%{opacity:1;}
+to{transform:translateY(-10vh);opacity:0;}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="envelope" id="envelope"></div>
+
+<div class="letter" id="letter">
+
+<div class="title">To My Love ❤️</div>
+
+<div class="map">
+NYC → Guyana ✈️  
+<br>
+Miles apart, but always connected
+</div>
+
+<p>
+It’s been six months of us officially being together, and honestly, it feels longer in the best way. Maybe it’s because we’re long distance, or maybe it’s because we’ve learned so much about each other and grown so close that it feels like we’ve known each other far longer than that. Either way, these six months have meant so much to me.
+</p>
+
+<p>
+Today also marks four months since you’ve been gone. You’d think that after four months I would’ve gotten used to the distance, but the truth is I haven’t. Almost every day I wake up wishing you were here so I could annoy you in person instead of through a phone. I wish we could just lay on the couch or in bed together watching a movie, instead of dealing with lag and frozen screens. I wish I could hold your hand and feel the warmth of your skin instead of just imagining it.
+</p>
+
+<p>
+But even with all that, I’d still choose the lag, the late-night calls, and the phone screen over a life where you’re not in it at all. Having you, even from miles away, is still better than not having you.
+</p>
+
+<p>
+I don’t think I’ll ever stop missing you until the day I can hold your hand without knowing it might be the last time for a while. But maybe the fact that I miss you every day is just proof of how much I love you. You’ve become such an important part of my life.
+</p>
+
+<p>
+I know I’ll get to see you in June, and I know there will be more moments for us after that. And when those moments come, I want to do everything I can to make them special. I want to show you how much you mean to me and how much I’ve missed you. Whether that’s through the little things, being open and vulnerable with you in ways we’re still learning, or just spending the night together holding each other and loving each other.
+</p>
+
+<p>
+There isn’t much I wouldn’t do to show you how deeply I care about you.
+</p>
+
+<p>
+Even with the distance between us, every single day I find myself loving you more than I did the day before.
+</p>
+
+<div class="signature">
+Always yours ❤️
+</div>
+
+</div>
+
+<script>
+
+/* envelope click */
+
+const envelope = document.getElementById("envelope")
+const letter = document.getElementById("letter")
+
+envelope.onclick = () => {
+envelope.classList.add("open")
+setTimeout(()=>{
+letter.classList.add("show")
+},600)
+}
+
+/* floating hearts */
+
+function createHeart(){
+const heart=document.createElement("div")
+heart.classList.add("heart")
+heart.innerHTML="❤"
+heart.style.left=Math.random()*100+"vw"
+heart.style.fontSize=(Math.random()*20+10)+"px"
+heart.style.animationDuration=(Math.random()*5+5)+"s"
+
+document.body.appendChild(heart)
+
+setTimeout(()=>heart.remove(),8000)
+}
+
+setInterval(createHeart,400)
+
+</script>
+
+</body>
+</html>
