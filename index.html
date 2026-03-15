@@ -1,257 +1,274 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>For You ❤️</title>
-
-<style>
-
-body {
-    margin: 0;
-    font-family: Georgia, serif;
-    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-    min-height: 100vh;   /* allow page to grow */
-    display: flex;
-    flex-direction: column; /* stack envelope on top, letter below */
-    align-items: center;
-    overflow-x: hidden;  /* allow vertical scrolling */
-}
-
-
-/* envelope */
-.envelope {
-    pointer-events: auto;
-}
-
-.envelope:before {
-    pointer-events: none;
-}
-
-.envelope {
-    width: 220px;
-    height: 140px;
-    background: #fff;
-    position: relative;
-    cursor: pointer;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-    z-index: 10;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.envelope:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-left: 110px solid transparent;
-    border-right: 110px solid transparent;
-    border-top: 70px solid #ff6b81;
-    transform-origin: top;
-    transition: transform 1s;
-}
-
-.envelope.open:before {
-    transform: rotateX(180deg);
-}
-
-    .envelope.hide {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.6s ease;
-}
-
-#flightPath{
-transition: stroke-dashoffset 2.5s ease;
-}
-
-.planeMove{
-animation: fly 2.5s forwards ease;
-}
-
-@keyframes fly{
-0%{ transform: translate(0px,0px); }
-50%{ transform: translate(100px,-40px); }
-100%{ transform: translate(200px,80px); }
-}
-
-/* letter */
-
-.letter{
-    margin-top: 40px;
-    position: relative;
-
-width:600px;
-max-width:90%;
-background:#fffdf9;
-padding:40px;
-border-radius:10px;
-box-shadow:0 20px 40px rgba(0,0,0,0.3);
-opacity:0;
-transform:translateY(40px);
-transition:all 1s ease;
-}
-
-.letter.show{
-opacity:1;
-transform:translateY(0);
-}
-
-.title{
-text-align:center;
-font-size:30px;
-color:#d6336c;
-margin-bottom:15px;
-}
-
-.map{
-text-align:center;
-color:#777;
-margin-bottom:30px;
-}
-
-p{
-font-size:18px;
-line-height:1.6;
-color:#333;
-}
-
-.signature{
-margin-top:30px;
-text-align:right;
-font-style:italic;
-color:#d6336c;
-}
-
-/* hearts */
-
-.heart{
-position:absolute;
-color:yellow;
-animation:float 8s linear infinite;
-}
-
-@keyframes float{
-from{transform:translateY(100vh);opacity:0;}
-50%{opacity:1;}
-to{transform:translateY(-10vh);opacity:0;}
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="envelope" id="envelope">Click Me 💌</div>
-
-<div class="letter" id="letter">
-
-<div class="title">To My Dearest Safrana ❤️</div>
-
-<div class="map">
-NYC → Guyana ✈️  
-<br>
-Miles apart, but always connected
-
-<svg width="320" height="160" viewBox="0 0 320 160">
-
-<!-- NYC point -->
-<circle cx="60" cy="40" r="5" fill="#d6336c"/>
-
-<!-- Guyana point -->
-<circle cx="260" cy="120" r="5" fill="#d6336c"/>
-
-<!-- travel path -->
-<path id="flightPath"
-d="M60 40 Q160 10 260 120"
-stroke="#d6336c"
-stroke-width="3"
-fill="none"
-stroke-dasharray="400"
-stroke-dashoffset="400"
-/>
-
-<!-- airplane -->
-<text id="plane" x="60" y="40" font-size="16">✈️</text>
-
-</svg>
-
-</div>
-
-<p>
-It’s been six months of us officially being together, and honestly, it feels longer in the best way. Maybe it’s because we’re long distance, or maybe it’s because we’ve learned so much about each other and grown so close that it feels like we’ve known each other far longer than that. Either way, these six months have meant so much to me.
-</p>
-
-<p>
-Today also marks four months since you’ve been gone. You’d think that after four months I would’ve gotten used to the distance, but the truth is I haven’t. Almost every day I wake up wishing you were here so I could annoy you in person instead of through a phone. I wish we could just lay on the couch or in bed together watching a movie, instead of dealing with lag and frozen screens. I wish I could hold your hand and feel the warmth of your skin instead of just imagining it.
-</p>
-
-<p>
-But even with all that, I’d still choose the lag, the late-night calls, and the phone screen over a life where you’re not in it at all. Having you, even from miles away, is still better than not having you.
-</p>
-
-<p>
-I don’t think I’ll ever stop missing you until the day I can hold your hand without knowing it might be the last time for a while. But maybe the fact that I miss you every day is just proof of how much I love you. You’ve become such an important part of my life.
-</p>
-
-<p>
-I know I’ll get to see you in June, and I know there will be more moments for us after that. And when those moments come, I want to do everything I can to make them special. I want to show you how much you mean to me and how much I’ve missed you. Whether that’s through the little things, being open and vulnerable with you in ways we’re still learning, or just spending the night together holding each other and loving each other.
-</p>
-
-<p>
-There isn’t much I wouldn’t do to show you how deeply I care about you.
-</p>
-
-<p>
-Even with the distance between us, every single day I find myself loving you more than I did the day before.
-</p>
-
-<div class="signature">
-Always yours Michael (Stinky)❤️
-</div>
-
-</div>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-    const envelope = document.getElementById("envelope");
-    const letter = document.getElementById("letter");
-    const flightPath = document.getElementById("flightPath");
-    const plane = document.getElementById("plane");
-
-   envelope.addEventListener("click", () => {
-    envelope.classList.add("open");
-
-    // fade envelope away
-    envelope.classList.add("hide");
-
-    setTimeout(() => {
-        letter.classList.add("show");
-        flightPath.style.strokeDashoffset = "0";
-        plane.classList.add("planeMove");
-    }, 600);
-});
-
-    /* floating hearts */
-    function createHeart() {
-        const heart = document.createElement("div");
-        heart.classList.add("heart");
-        heart.innerHTML = "❤";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.fontSize = (Math.random() * 20 + 10) + "px";
-        heart.style.animationDuration = (Math.random() * 5 + 5) + "s";
-
-        document.body.appendChild(heart);
-
-        setTimeout(() => heart.remove(), 8000);
+  <meta charset="UTF-8" />
+  <title>For You ❤️</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    /* Page */
+    body{
+      margin:0;
+      font-family: Georgia, serif;
+      background: linear-gradient(135deg,#ff9a9e,#fad0c4);
+      min-height:100vh;
+      overflow-x:hidden;
+      padding:20px;
+      color:#333;
     }
 
-    setInterval(createHeart, 400);
+    /* envelope */
+    .envelope {
+      width:220px;
+      height:140px;
+      background:#fff;
+      position:relative;
+      cursor:pointer;
+      box-shadow:0 15px 35px rgba(0,0,0,0.2);
+      z-index:10;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      margin:20px auto 0;
+      border-radius:6px;
+      user-select:none;
+    }
 
-});
-</script>
+    .envelope:before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:70px;
+      transform-origin:50% 0;
+      backface-visibility:hidden;
+      border-left:110px solid transparent;
+      border-right:110px solid transparent;
+      border-top:70px solid #ff6b81;
+      transition:transform 700ms cubic-bezier(.2,.9,.2,1);
+      pointer-events:none;
+    }
+
+    .envelope.open:before{
+      transform:rotateX(180deg);
+    }
+
+    .envelope.hide{
+      opacity:0;
+      pointer-events:none;
+      transition:opacity 600ms ease;
+    }
+
+    /* letter */
+    .letter{
+      position:relative;
+      width:600px;
+      max-width:90%;
+      background:#fffdf9;
+      padding:40px;
+      border-radius:10px;
+      box-shadow:0 20px 40px rgba(0,0,0,0.3);
+      opacity:0;
+      transform:translateY(40px);
+      transition:all 900ms ease;
+      margin:20px auto;
+    }
+
+    .letter.show{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    /* text */
+    .title{ text-align:center; font-size:30px; color:#d6336c; margin-bottom:15px; }
+    .map{ text-align:center; color:#777; margin-bottom:30px; }
+    p{ font-size:18px; line-height:1.6; color:#333; margin:14px 0; }
+    .signature{ margin-top:30px; text-align:right; font-style:italic; color:#d6336c; }
+
+    /* svg tweaks */
+    svg { display:block; margin:12px auto 0; max-width:100%; height:auto; }
+    #flightPath { stroke-linecap:round; transition:stroke-dashoffset 1200ms ease-out; }
+    #plane { font-size:18px; pointer-events:none; transform-origin:center; }
+
+    /* floating hearts */
+    .heart{
+      position:fixed;
+      top:100vh;
+      color:#ff6b81;
+      font-size:18px;
+      pointer-events:none;
+      will-change:transform,opacity;
+      animation:float 8s linear infinite;
+      text-shadow:0 2px 6px rgba(0,0,0,0.15);
+    }
+    @keyframes float{
+      0%{ transform:translateY(0) scale(0.9); opacity:0; }
+      10%{ opacity:1; }
+      50%{ opacity:1; transform:translateY(-45vh) scale(1.1); }
+      100%{ transform:translateY(-110vh) scale(0.9); opacity:0; }
+    }
+
+    /* small responsive tweaks */
+    @media (max-width:520px){
+      .title{ font-size:22px; }
+      p{ font-size:16px; }
+      .envelope{ width:180px; height:120px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="envelope" id="envelope" aria-label="Open letter" role="button">Click Me 💌</div>
+
+  <div class="letter" id="letter" aria-hidden="true">
+
+    <div class="title">To My Dearest Safrana ❤️</div>
+
+    <div class="map">
+      NYC → Guyana ✈️
+      <br>
+      Miles apart, but always connected
+
+      <svg width="320" height="160" viewBox="0 0 320 160" aria-hidden="true" role="img">
+        <!-- NYC point -->
+        <circle cx="60" cy="40" r="5" fill="#d6336c"/>
+
+        <!-- Guyana point -->
+        <circle cx="260" cy="120" r="5" fill="#d6336c"/>
+
+        <!-- travel path -->
+        <path id="flightPath"
+              d="M60 40 Q160 10 260 120"
+              stroke="#d6336c"
+              stroke-width="3"
+              fill="none"
+              stroke-dasharray="400"
+              stroke-dashoffset="400"
+        />
+
+        <!-- airplane (we'll move this along the path) -->
+        <text id="plane" x="60" y="40" font-size="16">✈️</text>
+      </svg>
+    </div>
+
+    <p>
+      It’s been six months of us officially being together, and honestly, it feels longer in the best way. Maybe it’s because we’re long distance, or maybe it’s because we’ve learned so much about each other and grown so close that it feels like we’ve known each other far longer than that. Either way, these six months have meant so much to me.
+    </p>
+
+    <p>
+      Today also marks four months since you’ve been gone. You’d think that after four months I would’ve gotten used to the distance, but the truth is I haven’t. Almost every day I wake up wishing you were here so I could annoy you in person instead of through a phone. I wish we could just lay on the couch or in bed together watching a movie, instead of dealing with lag and frozen screens. I wish I could hold your hand and feel the warmth of your skin instead of just imagining it.
+    </p>
+
+    <p>
+      But even with all that, I’d still choose the lag, the late-night calls, and the phone screen over a life where you’re not in it at all. Having you, even from miles away, is still better than not having you.
+    </p>
+
+    <p>
+      I don’t think I’ll ever stop missing you until the day I can hold your hand without knowing it might be the last time for a while. But maybe the fact that I miss you every day is just proof of how much I love you. You’ve become such an important part of my life.
+    </p>
+
+    <p>
+      I know I’ll get to see you in June, and I know there will be more moments for us after that. And when those moments come, I want to do everything I can to make them special. I want to show you how much you mean to me and how much I’ve missed you. Whether that’s through the little things, being open and vulnerable with you in ways we’re still learning, or just spending the night together holding each other and loving each other.
+    </p>
+
+    <p>
+      There isn’t much I wouldn’t do to show you how deeply I care about you.
+    </p>
+
+    <p>
+      Even with the distance between us, every single day I find myself loving you more than I did the day before.
+    </p>
+
+    <div class="signature">
+      Always yours Michael (Stinky)❤️
+    </div>
+
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const envelope = document.getElementById('envelope');
+      const letter = document.getElementById('letter');
+      const flightPath = document.getElementById('flightPath');
+      const plane = document.getElementById('plane');
+
+      // Prepare path for animation
+      const pathLength = flightPath.getTotalLength();
+      // ensure dasharray is at least the path length for smooth reveal
+      flightPath.style.strokeDasharray = pathLength;
+      flightPath.style.strokeDashoffset = pathLength;
+
+      // Click handler (single, clean)
+      envelope.addEventListener('click', () => {
+        // open flap
+        envelope.classList.add('open');
+
+        // hide envelope shortly after flap opens so user sees the animation
+        setTimeout(() => envelope.classList.add('hide'), 420);
+
+        // show letter after flap animation
+        setTimeout(() => {
+          letter.classList.add('show');
+          letter.setAttribute('aria-hidden', 'false');
+
+          // reveal the flight path
+          flightPath.style.strokeDashoffset = '0';
+
+          // animate plane along the path using requestAnimationFrame
+          const duration = 2000; // ms
+          const start = performance.now();
+
+          function animatePlane(now) {
+            const elapsed = now - start;
+            const t = Math.min(elapsed / duration, 1); // 0..1
+            const point = flightPath.getPointAtLength(t * pathLength);
+
+            // position the plane text element (adjust y to center visually)
+            plane.setAttribute('x', point.x);
+            plane.setAttribute('y', point.y - 6);
+
+            // rotate slightly based on path slope for a nicer effect
+            if (t < 1) {
+              requestAnimationFrame(animatePlane);
+            }
+          }
+          requestAnimationFrame(animatePlane);
+
+          // scroll to the letter smoothly
+          window.scrollTo({ top: letter.offsetTop - 20, behavior: 'smooth' });
+
+        }, 700);
+      });
+
+      /* floating hearts */
+      function createHeart(){
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.textContent = '❤';
+        // random horizontal start
+        const left = Math.random() * 100;
+        heart.style.left = left + 'vw';
+        // random size
+        heart.style.fontSize = (Math.random() * 18 + 10) + 'px';
+        // random animation duration and delay to vary motion
+        const dur = (Math.random() * 6 + 6).toFixed(2);
+        const delay = (Math.random() * 2).toFixed(2);
+        heart.style.animationDuration = dur + 's';
+        heart.style.animationDelay = delay + 's';
+        document.body.appendChild(heart);
+
+        // remove after animation completes (give a little buffer)
+        setTimeout(() => {
+          heart.remove();
+        }, (parseFloat(dur) + parseFloat(delay) + 0.5) * 1000);
+      }
+
+      // create hearts periodically
+      setInterval(createHeart, 420);
+    });
+  </script>
 
 </body>
 </html>
+```
